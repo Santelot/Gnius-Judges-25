@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gnius Club - Sistema de Jueces</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="login-page">
+    <div class="background-gradient"></div>
+    
+    <div class="login-container">
+        <div class="login-card">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="30" cy="30" r="28" stroke="url(#gradient)" stroke-width="4"/>
+                        <path d="M30 15L35 25L45 27L37.5 35L39 45L30 40L21 45L22.5 35L15 27L25 25L30 15Z" fill="url(#gradient)"/>
+                        <defs>
+                            <linearGradient id="gradient" x1="0" y1="0" x2="60" y2="60">
+                                <stop offset="0%" stop-color="#667eea"/>
+                                <stop offset="100%" stop-color="#764ba2"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <h1 class="logo-title">Gnius Club</h1>
+                <p class="logo-subtitle">Sistema de Nominaciones</p>
+            </div>
+
+            <div class="login-form-section">
+                <h2 class="form-title">Acceso para Jueces</h2>
+                <p class="form-description">Ingresa tus credenciales para continuar</p>
+
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="username" class="form-label">Usuario</label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username" 
+                            class="form-input" 
+                            placeholder="Ejemplo: juez01"
+                            required
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nombre" class="form-label">Nombre Completo</label>
+                        <input 
+                            type="text" 
+                            id="nombre" 
+                            name="nombre" 
+                            class="form-input" 
+                            placeholder="Ejemplo: María González"
+                            required
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+                    <button type="submit" class="btn btn-primary btn-login" id="loginButton">
+                        <span class="btn-text">Ingresar al Sistema</span>
+                        <span class="btn-loader" style="display: none;">
+                            <svg class="spinner" viewBox="0 0 50 50">
+                                <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                            </svg>
+                        </span>
+                    </button>
+                </form>
+
+                <div class="login-footer">
+                    <p class="footer-text">Programa de Innovación Digital</p>
+                    <p class="footer-subtext">Gnius Club © 2024</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+    <script type="module">
+        import { loginJudge } from './app.js';
+
+        const form = document.getElementById('loginForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const loginButton = document.getElementById('loginButton');
+        const btnText = loginButton.querySelector('.btn-text');
+        const btnLoader = loginButton.querySelector('.btn-loader');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const nombre = document.getElementById('nombre').value.trim();
+
+            if (!username || !nombre) {
+                showError('Por favor completa todos los campos');
+                return;
+            }
+
+            // Mostrar loader
+            btnText.style.display = 'none';
+            btnLoader.style.display = 'inline-block';
+            loginButton.disabled = true;
+            errorMessage.style.display = 'none';
+
+            try {
+                const result = await loginJudge(username, nombre);
+
+                if (result.success) {
+                    // Animación de éxito
+                    loginButton.classList.add('success');
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 500);
+                } else {
+                    showError(result.error || 'Error al iniciar sesión');
+                    resetButton();
+                }
+            } catch (error) {
+                showError('Error de conexión. Por favor verifica tu configuración de Supabase.');
+                resetButton();
+            }
+        });
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            errorMessage.classList.add('shake');
+            setTimeout(() => {
+                errorMessage.classList.remove('shake');
+            }, 500);
+        }
+
+        function resetButton() {
+            btnText.style.display = 'inline';
+            btnLoader.style.display = 'none';
+            loginButton.disabled = false;
+        }
+
+        // Auto-focus en el primer input
+        document.getElementById('username').focus();
+    </script>
+</body>
+</html>
