@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Métricas - Gnius Club</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-page metrics-page">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <svg width="32" height="32" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M30 15L35 25L45 27L37.5 35L39 45L30 40L21 45L22.5 35L15 27L25 25L30 15Z" fill="url(#navGradient)"/>
+                    <defs>
+                        <linearGradient id="navGradient" x1="0" y1="0" x2="60" y2="60">
+                            <stop offset="0%" stop-color="#667eea"/>
+                            <stop offset="100%" stop-color="#764ba2"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <span class="brand-text">Gnius Club</span>
+            </div>
+            
+            <div class="navbar-user">
+                <div class="user-info">
+                    <span class="user-name" id="userName">Cargando...</span>
+                    <span class="user-role">Juez</span>
+                </div>
+                <div class="user-avatar" id="userAvatar">
+                    <span id="userInitials">--</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item">
+                    <svg class="menu-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                        <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                        <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                        <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                    </svg>
+                    <span>Proyectos</span>
+                </a>
+                
+                <a href="metrics.html" class="menu-item active">
+                    <svg class="menu-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M3 3v18h18"></path>
+                        <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"></path>
+                    </svg>
+                    <span>Métricas</span>
+                </a>
+
+                <a href="dashboard.html#my-nominations" class="menu-item">
+                    <svg class="menu-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                    </svg>
+                    <span>Mis Nominaciones</span>
+                </a>
+
+                <div class="menu-divider"></div>
+
+                <a href="#" class="menu-item menu-item-danger" id="logoutBtn">
+                    <svg class="menu-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Salir</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Panel -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="metrics-header">
+                <div>
+                    <h1 class="page-title">Métricas en Tiempo Real</h1>
+                    <p class="page-description">Votación actualizada automáticamente</p>
+                </div>
+                <div class="metrics-actions">
+                    <button class="btn btn-secondary btn-icon" id="refreshBtn" title="Actualizar">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <polyline points="23 4 23 10 17 10"></polyline>
+                            <polyline points="1 20 1 14 7 14"></polyline>
+                            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                        </svg>
+                    </button>
+                    <div class="live-indicator">
+                        <span class="pulse"></span>
+                        <span>En Vivo</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Global Stats -->
+            <div class="stats-grid">
+                <div class="stat-card-large">
+                    <div class="stat-icon stat-icon-blue">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="totalJudges">0</div>
+                        <div class="stat-label">Jueces Votando</div>
+                    </div>
+                </div>
+
+                <div class="stat-card-large">
+                    <div class="stat-icon stat-icon-purple">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="totalVotes">0</div>
+                        <div class="stat-label">Votos Totales</div>
+                    </div>
+                </div>
+
+                <div class="stat-card-large">
+                    <div class="stat-icon stat-icon-green">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value" id="totalProjects">0</div>
+                        <div class="stat-label">Proyectos Nominados</div>
+                    </div>
+                </div>
+
+                <div class="stat-card-large">
+                    <div class="stat-icon stat-icon-orange">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-value">6</div>
+                        <div class="stat-label">Categorías</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories Metrics -->
+            <div class="categories-section">
+                <h2 class="section-title">Resultados por Categoría</h2>
+                <div id="categoriesMetrics" class="categories-grid">
+                    <!-- Se llenará dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Top Projects -->
+            <div class="top-projects-section">
+                <h2 class="section-title">Top 3 Proyectos por Categoría</h2>
+                <div id="topProjects" class="top-projects-grid">
+                    <!-- Se llenará dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="activity-section">
+                <h2 class="section-title">Actividad Reciente</h2>
+                <div id="recentActivity" class="activity-list">
+                    <!-- Se llenará dinámicamente -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script type="module" src="app.js"></script>
+    <script type="module" src="metrics.js"></script>
+</body>
+</html>
