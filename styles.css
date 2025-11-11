@@ -128,6 +128,13 @@ body {
     animation: float 3s ease-in-out infinite;
 }
 
+.logo-icon img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+}
+
 @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
@@ -394,6 +401,18 @@ body {
     display: flex;
     align-items: center;
     gap: var(--spacing-md);
+}
+
+.navbar-brand img {
+    display: block;
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    transition: var(--transition);
+}
+
+.navbar-brand img:hover {
+    transform: scale(1.05);
 }
 
 .brand-text {
@@ -886,11 +905,12 @@ body {
     position: fixed;
     top: var(--spacing-xl);
     right: var(--spacing-xl);
-    z-index: 2000;
+    z-index: 9999; /* Muy alto para estar sobre todo */
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
     max-width: 400px;
+    pointer-events: none; /* Permitir clicks a través del contenedor */
 }
 
 .toast {
@@ -902,6 +922,8 @@ body {
     align-items: center;
     gap: var(--spacing-md);
     animation: slideInRight 0.3s;
+    pointer-events: auto; /* Pero el toast sí recibe clicks */
+    min-width: 300px;
 }
 
 @keyframes slideInRight {
